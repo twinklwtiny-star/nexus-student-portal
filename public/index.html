@@ -1,0 +1,165 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#070b14">
+  <meta name="description" content="NEXUS student engineering project and hardware repository.">
+  <title>NEXUS — Student Project & Resource Portal</title>
+  <link rel="stylesheet" href="/css/styles.css">
+  <script src="/js/projects.js" defer></script>
+  <script src="/js/app.js" defer></script>
+</head>
+<body>
+  <div class="page-grid" aria-hidden="true"></div>
+
+  <div id="start-overlay" class="overlay overlay-top">
+    <section class="welcome-panel panel">
+      <p class="eyebrow"><span class="pulse-dot"></span> SYSTEM READY · NEXUS 1.0</p>
+      <h1 class="brand-title">NEXUS <span>STUDENT REPOSITORY</span></h1>
+      <p class="muted welcome-copy">A central hub for student engineering projects, circuit references, firmware and AI explanations.</p>
+      <button id="start-button" class="button button-primary">START EXPLORING <span aria-hidden="true">→</span></button>
+    </section>
+  </div>
+
+  <header class="site-header">
+    <a class="brand-lockup" href="/" aria-label="NEXUS home">
+      <span class="brand-mark" aria-hidden="true">N</span>
+      <span>
+        <strong>NEXUS <small>v1.0</small></strong>
+        <em>ENGINEERING PROJECT REPOSITORY</em>
+      </span>
+    </a>
+    <nav class="header-actions" aria-label="Main actions">
+      <span id="portal-status" class="status-pill"><span class="pulse-dot"></span> CHECKING SERVER</span>
+      <button id="api-settings-button" class="button button-quiet" type="button">API STATUS</button>
+      <button id="viewer-button" class="button button-mode active" type="button">VIEWER</button>
+      <button id="admin-button" class="button button-mode" type="button">ADMIN</button>
+    </nav>
+  </header>
+
+  <main>
+    <section class="hero">
+      <div class="hero-copy">
+        <p class="eyebrow purple">SOLVING PROJECT RESOURCE FRAGMENTATION</p>
+        <h2>One place for <span>engineering projects</span></h2>
+        <p class="muted">Explore project descriptions, circuit references, firmware and practical explanations. Ask NEXUS AI about the featured line-following robot.</p>
+      </div>
+      <aside class="stats-panel panel">
+        <div class="stats-heading"><span>PORTAL STATUS</span><span class="online">● ONLINE</span></div>
+        <div class="stats-grid">
+          <div><strong id="stat-project-count">0</strong><small>PROJECTS</small></div>
+          <div><strong>FREE</strong><small>ACCESS</small></div>
+        </div>
+        <button id="add-project-button" class="button button-primary hidden" type="button">＋ ADD PROJECT</button>
+      </aside>
+    </section>
+
+    <section class="content-wrap">
+      <div class="toolbar panel">
+        <label class="search-label">
+          <span class="sr-only">Search projects</span>
+          <input id="search-input" type="search" placeholder="Search project name or description…">
+        </label>
+        <label>
+          <span class="sr-only">Filter category</span>
+          <select id="category-select">
+            <option value="ALL">All categories</option>
+            <option value="Robotics & UAV">Robotics & UAV</option>
+            <option value="IoT & Automation">IoT & Automation</option>
+            <option value="Embedded Systems">Embedded Systems</option>
+            <option value="AI & Hardware">AI & Hardware</option>
+          </select>
+        </label>
+        <span class="count-label">Showing <strong id="visible-count">0</strong> projects</span>
+      </div>
+
+      <div id="projects-grid" class="projects-grid" aria-live="polite"></div>
+      <div id="empty-state" class="empty-state hidden">
+        <div class="empty-icon">⌕</div>
+        <h3>No projects found</h3>
+        <p class="muted">Try another search or category.</p>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">NEXUS HARDWARE LAB © 2026 <span>·</span> STUDENT ENGINEERING RESOURCE PORTAL</footer>
+
+  <section id="chat-widget" class="chat-widget" aria-label="NEXUS AI assistant">
+    <div id="chat-window" class="chat-window hidden">
+      <div class="chat-header">
+        <div><span class="pulse-dot"></span><strong>NEXUS AI ASSISTANT</strong></div>
+        <button id="close-chat-button" class="icon-button" type="button" aria-label="Close chat">×</button>
+      </div>
+      <div id="chat-messages" class="chat-messages" aria-live="polite"></div>
+      <form id="chat-form" class="chat-form">
+        <input id="chat-input" type="text" maxlength="8000" autocomplete="off" placeholder="Ask about the project…" aria-label="Your message">
+        <button id="chat-send-button" class="button button-primary" type="submit" aria-label="Send message">➤</button>
+      </form>
+    </div>
+    <button id="chat-toggle-button" class="chat-toggle" type="button"><span aria-hidden="true">✦</span> PROJECT AI</button>
+  </section>
+
+  <div id="project-modal" class="overlay hidden" role="dialog" aria-modal="true" aria-labelledby="modal-title">
+    <section class="modal-panel">
+      <div class="modal-header">
+        <div><span id="modal-category" class="tag">CATEGORY</span><h2 id="modal-title">Project title</h2></div>
+        <button class="icon-button" data-close="project-modal" type="button" aria-label="Close project">×</button>
+      </div>
+      <div class="modal-content">
+        <div class="project-meta"><strong id="modal-price">FREE ACCESS</strong><span>BLUEPRINT & SOURCE REFERENCE</span></div>
+        <div id="modal-video-wrap" class="video-wrap hidden"><iframe id="modal-video" title="Project demonstration" src="" allowfullscreen loading="lazy"></iframe></div>
+        <section><h3>PROJECT OVERVIEW</h3><p id="modal-description" class="long-copy"></p></section>
+        <section><h3>CIRCUIT DIAGRAM</h3><div class="circuit-frame"><img id="modal-circuit" alt="Project circuit diagram"></div></section>
+        <section>
+          <div class="section-heading"><h3>FIRMWARE SOURCE</h3><div class="inline-actions"><a id="firmware-download" class="text-link" href="#" download>Download .ino</a><button id="copy-code-button" class="button button-quiet" type="button">COPY CODE</button></div></div>
+          <pre id="modal-code" class="code-block">Loading firmware…</pre>
+        </section>
+      </div>
+    </section>
+  </div>
+
+  <div id="api-modal" class="overlay hidden" role="dialog" aria-modal="true" aria-labelledby="api-modal-title">
+    <section class="small-modal panel">
+      <button class="icon-button modal-x" data-close="api-modal" type="button" aria-label="Close">×</button>
+      <h2 id="api-modal-title">Gemini API connection</h2>
+      <p class="muted">The Gemini key is configured on the server and is never sent to this browser. Use the test below to check text generation.</p>
+      <p id="api-status" class="api-status" role="status">Checking server configuration…</p>
+      <button id="test-api-button" class="button button-primary" type="button">TEST GEMINI CONNECTION</button>
+    </section>
+  </div>
+
+  <div id="admin-modal" class="overlay hidden" role="dialog" aria-modal="true" aria-labelledby="admin-title">
+    <section class="small-modal panel">
+      <button class="icon-button modal-x" data-close="admin-modal" type="button" aria-label="Close">×</button>
+      <h2 id="admin-title">Admin authentication</h2>
+      <p class="muted">Enter the admin passcode configured in the server’s private .env file.</p>
+      <form id="admin-login-form">
+        <label class="field-label" for="admin-passcode">ADMIN PASSCODE</label>
+        <input id="admin-passcode" type="password" required minlength="12" autocomplete="current-password" placeholder="Enter admin passcode">
+        <p id="admin-error" class="form-error hidden" role="alert"></p>
+        <button class="button button-primary full-width" type="submit">AUTHENTICATE</button>
+      </form>
+    </section>
+  </div>
+
+  <div id="edit-modal" class="overlay hidden" role="dialog" aria-modal="true" aria-labelledby="edit-title">
+    <section class="modal-panel edit-panel">
+      <div class="modal-header"><h2 id="edit-title">Add project</h2><button class="icon-button" data-close="edit-modal" type="button" aria-label="Close">×</button></div>
+      <form id="project-form" class="edit-form">
+        <input id="edit-id" type="hidden">
+        <label>PROJECT TITLE<input id="edit-title-input" required maxlength="120"></label>
+        <label>CATEGORY<select id="edit-category"><option>Robotics & UAV</option><option>IoT & Automation</option><option>Embedded Systems</option><option>AI & Hardware</option></select></label>
+        <label>PRICE LABEL<input id="edit-price" required maxlength="80" value="FREE ACCESS"></label>
+        <label>THUMBNAIL URL<input id="edit-thumbnail" type="url" required placeholder="https://…"></label>
+        <label>CIRCUIT IMAGE URL<input id="edit-circuit" type="url" required placeholder="https://…"></label>
+        <label>YOUTUBE URL (OPTIONAL)<input id="edit-youtube" type="url" placeholder="https://youtu.be/…"></label>
+        <label>DESCRIPTION<textarea id="edit-description" rows="4" required></textarea></label>
+        <label>AI KNOWLEDGE NOTES<textarea id="edit-context" rows="4"></textarea></label>
+        <p class="muted tiny">Project additions and edits are stored in this browser only. They are not published to other visitors.</p>
+        <div class="inline-actions right"><button class="button button-quiet" data-close="edit-modal" type="button">CANCEL</button><button class="button button-primary" type="submit">SAVE PROJECT</button></div>
+      </form>
+    </section>
+  </div>
+</body>
+</html>
