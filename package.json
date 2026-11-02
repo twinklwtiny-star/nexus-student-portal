@@ -1,0 +1,22 @@
+{
+  "name": "nexus-student-project-portal",
+  "version": "1.0.0",
+  "private": true,
+  "description": "NEXUS student engineering project repository with a server-side Gemini API proxy.",
+  "type": "module",
+  "engines": {
+    "node": ">=20.0.0"
+  },
+  "scripts": {
+    "start": "node server.js",
+    "dev": "node --watch server.js",
+    "test": "node --test",
+    "check": "node --check server.js && node --check src/gemini.js && node --check public/js/projects.js && node --check public/js/app.js"
+  },
+  "dependencies": {
+    "dotenv": "^16.4.7",
+    "express": "^5.1.0",
+    "express-rate-limit": "^8.0.1",
+    "helmet": "^8.1.0"
+  }
+}
